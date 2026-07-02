@@ -1,12 +1,11 @@
-const { spawn } = require("child_process");
+const httpServer = require("http-server");
 
-const port = process.env.PORT || process.env.SERVER_PORT || 3000;
+const port = Number(process.env.PORT || process.env.SERVER_PORT || 3000);
 
-const server = spawn("npx", ["http-server", ".", "-p", port], {
-  stdio: "inherit",
-  shell: true
+const server = httpServer.createServer({
+  root: "."
 });
 
-server.on("close", (code) => {
-  process.exit(code);
+server.listen(port, "0.0.0.0", () => {
+  console.log(`Static site running on port ${port}`);
 });
